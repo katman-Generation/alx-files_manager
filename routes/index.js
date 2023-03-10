@@ -1,24 +1,22 @@
-import Express from 'express';
-import AppController from '../controllers/AppController';
-import AuthController from '../controllers/AuthController';
-import FilesController from '../controllers/FilesController';
-import UsersController from '../controllers/UsersController';
-import xTokenAuth from './middlewares';
+const express = require('express');
+const AppController = require('../controllers/AppController');
+const UsersController = require('../controllers/UsersController');
+const AuthController = require('../controllers/AuthController');
+const FilesController = require('../controllers/FilesController');
 
-const router = Express.Router();
-router.use(Express.json());
+const router = express.Router();
 
 router.get('/status', AppController.getStatus);
 router.get('/stats', AppController.getStats);
 router.post('/users', UsersController.postNew);
 router.get('/connect', AuthController.getConnect);
-router.get('/disconnect', xTokenAuth, AuthController.getDisconnect);
-router.get('/users/me', xTokenAuth, UsersController.getMe);
-router.post('/files', xTokenAuth, FilesController.postUpload);
-router.get('/files/:id', xTokenAuth, FilesController.getShow);
-router.get('/files', xTokenAuth, FilesController.getIndex);
-router.put('/files/:id/publish', xTokenAuth, FilesController.putPublish);
-router.put('/files/:id/unpublish', xTokenAuth, FilesController.putUnpublish);
+router.get('/disconnect', AuthController.getDisconnect);
+router.get('/users/me', UsersController.getMe);
+router.post('/files', FilesController.postUpload);
+router.get('/files/:id', FilesController.getShow);
+router.get('/files', FilesController.getIndex);
+router.put('/files/:id/publish', FilesController.putPublish);
+router.put('/files/:id/unpublish', FilesController.putUnpublish);
 router.get('/files/:id/data', FilesController.getFile);
 
-export default router;
+module.exports = router;
